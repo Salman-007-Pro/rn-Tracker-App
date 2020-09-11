@@ -1,21 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+//main
+import React from "react";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+//navigator
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+// import { createDrawerNavigator } from "react-navigation-drawer";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+//context Api
+import { Provider } from "./src/globalContextApi/globalContext";
+
+//navigation Screens
+import {
+  AccountScreen,
+  SignInScreen,
+  SignUpScreen,
+  TrackCreateScreen,
+  TrackDetailScreen,
+  TrackListScreen,
+} from "./src/Screens";
+
+const switchNavigator = createSwitchNavigator({
+  loginFlow: createStackNavigator({
+    SignUp: SignUpScreen,
+    SignInScreen: SignInScreen,
+  }),
+  mainFlow: createBottomTabNavigator({
+    TrackCreate: TrackCreateScreen,
+    Account: AccountScreen,
+    TrackListFlow: createStackNavigator({
+      TrackDetail: TrackDetailScreen,
+      TrackList: TrackListScreen,
+    }),
+  }),
 });
+const App = createAppContainer(switchNavigator);
+export default () => (
+  <Provider>
+    <App />
+  </Provider>
+);
