@@ -2,22 +2,44 @@
 import React, { useContext } from "react";
 
 //components
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, View } from "react-native";
+import AuthForm from "../Components/AuthForm";
+import NavLink from "../Components/NavLink";
+import { NavigationEvents } from "react-navigation";
 
 //contextApi
 import { Context } from "../globalContextApi/globalContext";
 
 const SignUpScreen = () => {
-  const { counter, getAddCounter, getDelCounter } = useContext(Context);
+  const { getSignUp, login, getClearErrorMessage } = useContext(Context);
+  const { error } = login;
   return (
-    <View>
-      <Text>Counter: {counter}</Text>
-      <Button title="Add Counter" onPress={getAddCounter} />
-      <Button title="Del Counter" onPress={getDelCounter} />
+    <View style={styles.container}>
+      <NavigationEvents onWillFocus={() => getClearErrorMessage()} />
+      <AuthForm
+        headerText="Sign up for Tracker"
+        buttonTitle="Sign Up"
+        error={error}
+        onSubmit={getSignUp}
+      />
+      <NavLink
+        navText="Already have an account? sign in instead"
+        routeName="SignIn"
+      />
     </View>
   );
 };
 
 export default SignUpScreen;
-
-const styles = StyleSheet.create({});
+SignUpScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 150,
+  },
+});

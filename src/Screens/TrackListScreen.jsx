@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 const TrackListScreen = () => {
   return (
     <View>
-      <Text>List Track</Text>
+      <Text>List Track Screen</Text>
     </View>
   );
 };

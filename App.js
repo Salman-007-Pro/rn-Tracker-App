@@ -10,6 +10,9 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 //context Api
 import { Provider } from "./src/globalContextApi/globalContext";
 
+//navigation Ref
+import { setNavigator } from "./src/navigationRef";
+
 //navigation Screens
 import {
   AccountScreen,
@@ -18,12 +21,14 @@ import {
   TrackCreateScreen,
   TrackDetailScreen,
   TrackListScreen,
+  ResolveAuthScreen,
 } from "./src/Screens";
 
 const switchNavigator = createSwitchNavigator({
+  ResolveAuth: ResolveAuthScreen,
   loginFlow: createStackNavigator({
     SignUp: SignUpScreen,
-    SignInScreen: SignInScreen,
+    SignIn: SignInScreen,
   }),
   mainFlow: createBottomTabNavigator({
     TrackCreate: TrackCreateScreen,
@@ -37,6 +42,6 @@ const switchNavigator = createSwitchNavigator({
 const App = createAppContainer(switchNavigator);
 export default () => (
   <Provider>
-    <App />
+    <App ref={setNavigator} />
   </Provider>
 );
