@@ -18,3 +18,27 @@ export const CLEAR_ERROR_MESSAGE = "CLEAR_ERROR_MESSAGE";
 
 //check authentication
 export const CHECK_AUTHENTICATION = "CHECK_AUTHENTICATION";
+
+//start recording
+export const START_RECORDING = "START_RECORDING";
+
+//stop recording
+export const STOP_RECORDING = "STOP_RECORDING";
+
+//add current location
+export const ADD_CURRENT_LOCATION = "ADD_CURRENT_LOCATION";
+
+//add location
+export const ADD_LOCATION = "ADD_LOCATION";
+
+//changed Name
+export const CHANGED_NAME = "CHANGED_NAME";
+
+//reset name and locations
+export const RESET = "RESET";
+
+//create track
+export const CREATE_TRACK = "CREATE_TRACK";
+
+//fetch track
+export const FETCH_TRACK = "FETCH_TRACK";

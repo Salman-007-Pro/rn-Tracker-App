@@ -13,6 +13,8 @@ const getLocation = (increamnet) => {
       altitude: 5,
       longitude: -122.0312186 + increamnet * tenMeterWithDegrees,
       latitude: 37.33233141 + increamnet * tenMeterWithDegrees,
+      // longitude: -122 + increamnet * tenMeterWithDegrees,
+      // latitude: 37 + increamnet * tenMeterWithDegrees,
     },
   };
 };

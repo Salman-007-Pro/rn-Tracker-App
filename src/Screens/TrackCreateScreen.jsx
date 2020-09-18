@@ -1,55 +1,58 @@
-//changed location
-// import "../_mockLocations";
+// changed location
+import "../_mockLocations";
 
 //main
-import React, { useState, useEffect } from "react";
+import React, { useContext, useCallback } from "react";
 
 //components
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
-import { SafeAreaView } from "react-navigation";
-import {
-  requestPermissionsAsync,
-  watchPositionAsync,
-  Accuracy,
-} from "expo-location";
+import { SafeAreaView, withNavigationFocus } from "react-navigation";
 import Map from "../Components/Map";
+import TrackForm from "../Components/TrackForm";
 
-const TrackCreateScreen = () => {
-  const [err, setErr] = useState(null);
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestPermissionsAsync();
-      if (!granted) {
-        throw new Error("Location permission not granted");
-      }
-      await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        (location) => {
-          console.log(location);
-        }
-      );
-    } catch (e) {
-      setErr(e);
-    }
-  };
+//contextApi
+import { Context } from "../globalContextApi/globalContext";
 
-  useEffect(() => {
-    startWatching();
-  }, []);
+//useLocation
+import useLocation from "../useHook/useLocation";
+
+//icon
+import { FontAwesome } from "@expo/vector-icons";
+
+const TrackCreateScreen = ({ isFocused }) => {
+  const {
+    getAddLocation,
+    location: { recording },
+  } = useContext(Context);
+  const callback = useCallback(
+    (location) => {
+      getAddLocation(location, recording);
+    },
+    [recording]
+  );
+  const [err] = useLocation(isFocused || recording, callback);
+
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
-      <Text h2>Create a Track</Text>
+      <Text h2 style={styles.heading}>
+        Create a Track
+      </Text>
       <Map />
       {err ? <Text>{err}</Text> : null}
+      <TrackForm />
     </SafeAreaView>
   );
 };
+TrackCreateScreen.navigationOptions = {
+  headerTitleStyle: { alignSelf: "center" },
+  title: "Add Track",
+  tabBarIcon: <FontAwesome name="plus" size={20} color="black" />,
+};
+export default withNavigationFocus(TrackCreateScreen);
 
-export default TrackCreateScreen;
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  heading: {
+    alignSelf: "center",
+  },
+});
